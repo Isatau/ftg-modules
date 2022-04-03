@@ -12,7 +12,7 @@ class FarmhoneygameMod(loader.Module):
     strings = {
         "name": "frogFarm",
         "fron": "<i>Автоматическая слежка за жабой запустится через 20 сек...</i>",
-        "farmon_already": "<i>Уже запущено</i>",
+        "fron_already": "<i>Уже запущено</i>",
         "froff": "<i>❌\Слежка за жабой остановлена.\n☢️Надюпано:</i> <b>%coins% i¢</b>",
     }
 
@@ -25,24 +25,24 @@ class FarmhoneygameMod(loader.Module):
         self.myid = (await client.get_me()).id
         self.honeygame = 1276392130
 
-    async def farmoncmd(self, message):
+    async def froncmd(self, message):
         """Запустить слежку"""
         status = self.db.get(self.name, "status", False)
         if status:
-            return await message.edit(self.strings["farmon_already"])
+            return await message.edit(self.strings["fron_already"])
         self.db.set(self.name, "status", True)
         await self.client.send_message(
             self.honeygame, "покормить жабу", schedule=timedelta(seconds=20)
         )
-        await message.edit(self.strings["farmon"])
+        await message.edit(self.strings["fron"])
 
-    async def farmoffcmd(self, message):
+    async def froffcmd(self, message):
         """Остановить слежку"""
         self.db.set(self.name, "status", False)
         coins = self.db.get(self.name, "coins", 0)
         if coins:
             self.db.set(self.name, "coins", 0)
-        await message.edit(self.strings["farmoff"].replace("%coins%", str(coins)))
+        await message.edit(self.strings["froff"].replace("%coins%", str(coins)))
 
    
     async def watcher(self, event):
