@@ -79,10 +79,5 @@ class FarmhoneygameMod(loader.Module):
                     self.honeygame, id=[x.id for x in sch]
                 )
             )
-            return await self.client.send_message(self.iris, "покормить жабу", schedule=delta)
-        if "Вы успешно покормили жабу!" in event.raw_text:
-            args = event.raw_text.split()
-            for x in args:
-                if x[0] == "+":
-                    )
+
 
