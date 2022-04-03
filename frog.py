@@ -84,5 +84,5 @@ class FarmhoneygameMod(loader.Module):
             args = event.raw_text.split()
             for x in args:
                 if x[0] == "+":
-                    )
+     
 
