@@ -13,7 +13,7 @@ class FarmhoneygameMod(loader.Module):
         "name": "frogFarm",
         "fron": "<i>Автоматическая слежка за жабой запустится через 20 сек...</i>",
         "fron_already": "<i>Уже запущено</i>",
-        "froff": "<i>❌\Слежка за жабой остановлена.\n☢️Надюпано:</i> <b>%coins% i¢</b>",
+        "froff": "<i>❌\Слежка за жабой остановлена.</i> ",
     }
 
     def __init__(self):
@@ -39,10 +39,6 @@ class FarmhoneygameMod(loader.Module):
     async def froffcmd(self, message):
         """Остановить слежку"""
         self.db.set(self.name, "status", False)
-        coins = self.db.get(self.name, "coins", 0)
-        if coins:
-            self.db.set(self.name, "coins", 0)
-        await message.edit(self.strings["froff"].replace("%coins%", str(coins)))
 
    
     async def watcher(self, event):
@@ -60,17 +56,17 @@ class FarmhoneygameMod(loader.Module):
             )
         if event.sender_id != self.honeygame:
             return
-        if "Вы успешно покормили жабу!" in event.raw_text:
+        if "Дружище, у тебя премиум-жаба, но 6 часов с момента кормежки не прошло!" in event.raw_text:
             args = [int(x) for x in event.raw_text.split() if x.isnumeric()]
             randelta = random.randint(20, 60)
-            if len(args) == 6:
+            if len(args) == 7:
                 delta = timedelta(
-                    hours=args[1], minutes=args[2], seconds=args[3] + randelta
+                    hours=args[4], minutes=args[5], seconds=args[6] + randelta
                 )
+            elif len(args) == 6:
+                delta = timedelta(minutes=args[4], seconds=args[5] + randelta)
             elif len(args) == 5:
-                delta = timedelta(minutes=args[1], seconds=args[2] + randelta)
-            elif len(args) == 4:
-                delta = timedelta(seconds=args[1] + randelta)
+                delta = timedelta(seconds=args[4] + randelta)
             else:
                 return
             sch = (
@@ -83,4 +79,10 @@ class FarmhoneygameMod(loader.Module):
                     self.honeygame, id=[x.id for x in sch]
                 )
             )
+            return await self.client.send_message(self.iris, "покормить жабу", schedule=delta)
+        if "Вы успешно покормили жабу!" in event.raw_text:
+            args = event.raw_text.split()
+            for x in args:
+                if x[0] == "+":
+                    )
 
