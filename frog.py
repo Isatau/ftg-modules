@@ -79,5 +79,3 @@ class FarmhoneygameMod(loader.Module):
                     self.honeygame, id=[x.id for x in sch]
                 )
             )
-
-
