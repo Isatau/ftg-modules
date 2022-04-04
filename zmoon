@@ -5,12 +5,12 @@ from asyncio import sleep
 
 @loader.tds
 class imyMod(loader.Module):
-    """Famous TikTok hearts animation implemented in FTG"""
+    """Хэлоу чекай шо будет"""
 
     strings = {"name": "MoonMagick"}
 
     async def imycmd(self, message: "telethon.tl.types.Message") -> None:
-        """This famous TikTok animation..."""
+        """Магия"""
         if not message.out:
             message = await message.respond("imy")
 
